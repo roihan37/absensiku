@@ -1,0 +1,21 @@
+import "dotenv/config";
+import cookieParser from "cookie-parser";
+import express from "express";
+import cors from "cors";
+import router from "./routes";
+
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(cors())
+app.use(router)
+
+app.get("/", (req, res) => {
+    return res.send("Hi Everyone.");
+});
+
+
+app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
