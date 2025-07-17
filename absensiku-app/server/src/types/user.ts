@@ -1,15 +1,19 @@
-export interface CreateUserBody {
-    id? : number,
+export interface Admin {
+  nip: string 
+  nuptk: string 
+}
+
+export interface User {
+    id? : number
     name: string
     username: string
     password: string
     email: string
     role: 'admin' | 'teacher' | 'student'
     gender: 'male' | 'female'
-    nip: string 
-    nuptk: string 
     phoneNumber: string
-    address: string,
-    createdAt? : Date,
+    address: string
+    createdAt? : Date
     updatedAt? : Date
   }
+
