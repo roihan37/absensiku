@@ -1,8 +1,17 @@
-import { Request } from 'express'
+interface UserLogin {
+    id: number;
+    role : string
+  }
+  
+declare global {
+    namespace Express {
+      interface Request {
+        userLogin?: UserLogin;
+      }
+    }
+  }
 
-export type TypedRequestBody<T> = Request<{}, {}, T>
-
-
+  
 export interface LoginBody {
     email: string;
     password: string;

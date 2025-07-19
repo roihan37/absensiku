@@ -24,41 +24,6 @@ async function main() {
   console.log('✅ Admin seeded!')
 }
 
-// async function main() {
-  
-//   const existingUser = await prisma.user.findUnique({
-//     where: { email: 'admin@gmail.com' },
-//   });
-
-//   if (existingUser) {
-//     console.log('⚠️ Admin already exists. Skipping creation.');
-//     return;
-//   }
-
-//   const user = await prisma.user.create({
-//     data: {
-//       name: 'admin',
-//       username: 'admin',
-//       password: hash('tasik123'),
-//       email: 'admin@gmail.com',
-//       role: 'admin',
-//       gender: 'male',
-//       phoneNumber: '0812238237132',
-//       address: 'jln tentara pelajar',
-//       admin: {
-//         create: {
-//           nip: '989801920821',
-//           nuptk: '102918391831082',
-//         },
-//       },
-//     },
-//     include: {
-//       admin: true, // optional: to return with admin relation
-//     },
-//   });
-
-//   console.log('✅ Admin seeded:', user);
-// }
 
 main()
   .then(async () => {
