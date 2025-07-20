@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 import { prisma } from '../config/prisma'; // sesuaikan path-mu
+import { decoded } from '../utils/jwt';
 
-interface JwtPayload {
+interface ResultToken {
   id: number;
   
 }
@@ -10,7 +10,7 @@ interface JwtPayload {
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
-
+  
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Missing or invalid Authorization header' });
   }
@@ -18,10 +18,10 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+    const resultToken =  decoded(token) as ResultToken
 
     const user = await prisma.user.findUnique({
-      where: { id: decoded.id }
+      where: { id: resultToken.id }
     });
 
     if (!user) {
@@ -35,6 +35,8 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
 
     next();
   } catch (err) {
+    console.log(err);
+    
     return res.status(401).json({ message: 'Invalid or expired token' });
   }
 }

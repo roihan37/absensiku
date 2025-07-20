@@ -10,9 +10,10 @@ export class Controller {
     static async login(
         req: Request<{}, {}, LoginBody>,
         res: Response
-    ): Promise<void> {
+    ) {
         try {
-            const { role, email, password } = req.body
+            const { email, password } = req.body
+
             if (!email || !password) {
                 throw { name: "badRequest" }
             }
@@ -25,7 +26,7 @@ export class Controller {
                     }
                 }
             )
-            
+
             if (!existingUser) {
                 throw { name: "Unauthorized" }
             }
@@ -48,6 +49,7 @@ export class Controller {
                 .status(200).json({ accessToken })
 
         } catch (error: unknown) {
+            console.log(error);
 
             if (typeof error === 'object' && error !== null && 'name' in error) {
                 const err = error as { name: string };
@@ -64,6 +66,59 @@ export class Controller {
             }
         }
 
+
+
     }
-      
+
+    static async getAllAdmins(req: Request, res: Response) {
+        try {
+            const allAdmins = await prisma.user.findMany({
+                where: { role: 'admin' },
+                include: { admin: true }
+            })
+
+            const safeAdmins = allAdmins.map(({ password, ...rest }) => rest);
+
+            res.status(200).json(safeAdmins);
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Failed to fetch admin users' });
+        }
+    }
+
+    static async getAllTeachers(req: Request, res: Response) {
+        try {
+            const allTeachers = await prisma.user.findMany({
+                where: { role: 'teacher' },
+                include: { teacher: true }
+            })
+
+            const safeTeachers = allTeachers.map(({ password, ...rest }) => rest);
+
+            res.status(200).json(safeTeachers);
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Failed to fetch teacher users' });
+        }
+    }
+
+    static async getAllStudents(req: Request, res: Response) {
+        try {
+            const allStudents = await prisma.user.findMany({
+                where: { role: 'student' },
+                include: { student: true }
+            })
+
+            const safeStudents = allStudents.map(({ password, ...rest }) => rest);
+
+            res.status(200).json(safeStudents);
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Failed to fetch student users' });
+        }
+    }
+
 }
