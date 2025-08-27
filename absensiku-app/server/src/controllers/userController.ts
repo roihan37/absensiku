@@ -261,7 +261,7 @@ export class Controller {
                 include: { admin: true }
             })
 
-            const safeAdmins = allAdmins.map(({ password, ...rest }) => rest);
+            const safeAdmins = allAdmins.map((user)=> exclude(user, ["password"]));
 
             res.status(200).json(safeAdmins);
 
@@ -325,7 +325,7 @@ export class Controller {
                 include: { teacher: true }
             })
 
-            const safeTeachers = allTeachers.map(({ password, ...rest }) => rest);
+            const safeTeachers = allTeachers.map((user)=> exclude(user, ["password"]));
 
             res.status(200).json(safeTeachers);
 
@@ -342,7 +342,7 @@ export class Controller {
                 include: { student: true }
             })
 
-            const safeStudents = allStudents.map(({ password, ...rest }) => rest);
+            const safeStudents = allStudents.map((user)=> exclude(user, ["password"]));
 
             res.status(200).json(safeStudents);
 
