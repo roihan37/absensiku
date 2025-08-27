@@ -24,6 +24,7 @@ model User {
   admin         Admin?
   student       Student?
   teacher       Teacher?
+  duty          Duty?
   status        Status @default(active)
   refreshTokens RefreshToken[]
   gender        String 
@@ -55,12 +56,34 @@ model Admin {
   nuptk   String
 }
 
+model AcademicYear {
+  id     Int     @id @default(autoincrement())
+  year   String  @unique
+  startDate DateTime
+  endDate DateTime @unique
+  isActive Boolean
+  class  Class[]
+}
+
+
+model Class {
+  id      Int    @id @default(autoincrement())
+  name String
+  classTeacher Teacher? @relation(fields: [classTeacherId], references: [id])
+  classTeacherId Int?   @unique
+  student Student[]
+  academicYear    AcademicYear @relation(fields: [academicYearId], references: [id])
+  academicYearId  Int @default(1)
+}
+
 model Teacher {
   id      Int    @id @default(autoincrement())
   user    User @relation(fields: [userId], references: [id])
   userId  String  @unique
   nip     String
   nuptk   String
+
+  class   Class? // 1 teacher hanya bisa punya 1 class
 }
 
 
@@ -74,10 +97,10 @@ model Student {
    nisn String
 }
 
-model Class {
+model Duty {
    id      Int    @id @default(autoincrement())
-   name String
-   student Student[]
+   user    User @relation(fields: [userId], references: [id])
+   userId  String  @unique
 }
 
 
@@ -85,6 +108,7 @@ enum Role {
   admin
   teacher
   student
+  duty
 }
 
 enum Status {

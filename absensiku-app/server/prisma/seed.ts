@@ -38,7 +38,7 @@ async function main() {
         email,
         role: 'teacher',
         gender: faker.person.sexType(),
-        phoneNumber: '08##########',
+        phoneNumber: '08' + faker.string.numeric(10),
         address: faker.location.streetAddress(),
         teacher: {
           create: {
@@ -51,11 +51,23 @@ async function main() {
     console.log(`✅ Teacher ${i} seeded!`);
   }
 
+  const academicYear = await prisma.academicYear.upsert({
+    where: { year: '2024/2025' },
+    update: {},
+    create: {
+      year: '2024/2025',
+      startDate: new Date('2024-07-01'),
+      endDate: new Date('2025-06-30'),
+      isActive: true,
+    },
+  });
+
   // === CLASSES ===
   for (let i = 1; i <= 3; i++) {
     await prisma.class.create({
       data: {
         name: `Class ${i}`,
+        academicYearId: academicYear.id, // WAJIB isi sesuai schema
       },
     });
   }
@@ -77,7 +89,7 @@ async function main() {
           email,
           role: 'student',
           gender: studentCount % 2 === 0 ? 'male' : 'female',
-          phoneNumber: '08##########',
+          phoneNumber: '08' + faker.string.numeric(10),
           address: faker.location.streetAddress(),
           student: {
             create: {
@@ -93,6 +105,7 @@ async function main() {
     }
   }
 }
+
 
 main()
   .then(async () => {
