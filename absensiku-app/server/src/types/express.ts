@@ -1,5 +1,5 @@
 interface UserLogin {
-    id: number;
+    id: string;
     role : string
   }
   

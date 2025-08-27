@@ -56,7 +56,6 @@ async function main() {
     await prisma.class.create({
       data: {
         name: `Class ${i}`,
-        status: 'active',
       },
     });
   }
@@ -85,7 +84,6 @@ async function main() {
               classId: kelas.id,
               nis: `NIS${studentCount}A`,
               nisn: `NISN${studentCount}B`,
-              status: 'active',
             },
           },
         },

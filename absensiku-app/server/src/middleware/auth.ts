@@ -3,7 +3,8 @@ import { prisma } from '../config/prisma'; // sesuaikan path-mu
 import { decoded } from '../utils/jwt';
 
 interface ResultToken {
-  id: number;
+  id: string
+  role : string;
   
 }
 
@@ -19,9 +20,8 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
 
   try {
     const resultToken =  decoded(token) as ResultToken
-
     const user = await prisma.user.findUnique({
-      where: { id: resultToken.id }
+      where: { id: resultToken.id } 
     });
 
     if (!user) {
@@ -35,7 +35,6 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
 
     next();
   } catch (err) {
-    console.log(err);
     
     return res.status(401).json({ message: 'Invalid or expired token' });
   }

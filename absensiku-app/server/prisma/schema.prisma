@@ -15,7 +15,7 @@ datasource db {
 }
 
 model User {
-  id            Int     @id @default(autoincrement())
+  id            String     @id @unique @default(uuid())
   name          String
   username      String  @unique
   password      String
@@ -24,6 +24,7 @@ model User {
   admin         Admin?
   student       Student?
   teacher       Teacher?
+  status        Status @default(active)
   refreshTokens RefreshToken[]
   gender        String 
   phoneNumber   String
@@ -35,7 +36,7 @@ model User {
 model RefreshToken {
   id          String   @id @default(uuid())
   hashedToken String   @unique
-  userId      Int
+  userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   revoked     Boolean  @default(false)
   device      String?
@@ -49,7 +50,7 @@ model RefreshToken {
 model Admin {
   id      Int    @id @default(autoincrement())
   user    User @relation(fields: [userId], references: [id])
-  userId  Int  @unique
+  userId  String  @unique
   nip     String
   nuptk   String
 }
@@ -57,7 +58,7 @@ model Admin {
 model Teacher {
   id      Int    @id @default(autoincrement())
   user    User @relation(fields: [userId], references: [id])
-  userId  Int  @unique
+  userId  String  @unique
   nip     String
   nuptk   String
 }
@@ -66,18 +67,16 @@ model Teacher {
 model Student {
    id      Int    @id @default(autoincrement())
    user    User @relation(fields: [userId], references: [id])
-   userId  Int  @unique
+   userId  String  @unique
    class Class @relation(fields: [classId], references: [id])
    classId Int  
    nis String
    nisn String
-   status Status
 }
 
 model Class {
    id      Int    @id @default(autoincrement())
    name String
-   status Status
    student Student[]
 }
 

@@ -5,7 +5,7 @@ import { hashToken } from "../utils/hashToken";
 // a refresh token is valid for 30 days
 // that means that if a user is inactive for more than 30 days, he will be required to log in again
 export const addRefreshTokenToWhitelist = (
-    {refreshToken, userId} : {refreshToken : string, userId : number}
+    {refreshToken, userId} : {refreshToken : string, userId : string}
     ) => {
     return prisma.refreshToken.create({
         data: {
@@ -37,7 +37,7 @@ export function deleteRefreshTokenById(id : string) {
     });
   }
 
-export function revokeTokens(userId : number) {
+export function revokeTokens(userId : string) {
     return prisma.refreshToken.updateMany({
       where: {
         userId,
@@ -48,7 +48,7 @@ export function revokeTokens(userId : number) {
     });
   }
   
-  export async function revokeTokensOnReuse(userId: number) {
+  export async function revokeTokensOnReuse(userId: string) {
     return prisma.refreshToken.updateMany({
       where: {
         userId,

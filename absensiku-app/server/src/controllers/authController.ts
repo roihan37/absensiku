@@ -25,7 +25,9 @@ export class Controller {
             savedRefreshToken.revoked === true ||
             Date.now() >= savedRefreshToken.expireAt.getTime()
           ) {
-            await revokeTokensOnReuse(savedRefreshToken?.userId ?? -1);
+            if (savedRefreshToken?.userId) {
+              await revokeTokensOnReuse(savedRefreshToken.userId);
+            }
             res.clearCookie('refreshToken');
             const error = new Error('Invalid or expired refresh token.');
             error.name = 'Unauthorized';
