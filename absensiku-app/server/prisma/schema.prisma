@@ -15,23 +15,26 @@ datasource db {
 }
 
 model User {
-  id            String     @id @unique @default(uuid())
+  id            String         @id @unique @default(uuid())
   name          String
-  username      String  @unique
+  username      String         @unique
   password      String
-  email         String  @unique
-  role          Role 
+  email         String         @unique
+  role          Role
   admin         Admin?
   student       Student?
   teacher       Teacher?
-  duty          Duty?
-  status        Status @default(active)
+  status        Status         @default(active)
   refreshTokens RefreshToken[]
-  gender        String 
+  gender        String
   phoneNumber   String
   address       String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  attendances           Attendance[] // relasi ke absensi
+  sentNotifications     Notification[] @relation("SentNotifications")
+  receivedNotifications Notification[] @relation("ReceivedNotifications")
 }
 
 model RefreshToken {
@@ -47,62 +50,102 @@ model RefreshToken {
   expireAt    DateTime
 }
 
-
 model Admin {
-  id      Int    @id @default(autoincrement())
-  user    User @relation(fields: [userId], references: [id])
-  userId  String  @unique
-  nip     String
-  nuptk   String
-}
-
-model AcademicYear {
-  id     Int     @id @default(autoincrement())
-  year   String  @unique
-  startDate DateTime
-  endDate DateTime @unique
-  isActive Boolean
-  class  Class[]
-}
-
-
-model Class {
-  id      Int    @id @default(autoincrement())
-  name String
-  classTeacher Teacher? @relation(fields: [classTeacherId], references: [id])
-  classTeacherId Int?   @unique
-  student Student[]
-  academicYear    AcademicYear @relation(fields: [academicYearId], references: [id])
-  academicYearId  Int @default(1)
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+  nip    String
+  nuptk  String
 }
 
 model Teacher {
-  id      Int    @id @default(autoincrement())
-  user    User @relation(fields: [userId], references: [id])
-  userId  String  @unique
-  nip     String
-  nuptk   String
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+  nip    String
+  nuptk  String
 
-  class   Class? // 1 teacher hanya bisa punya 1 class
+  class Class? // 1 teacher hanya bisa punya 1 class
 }
-
 
 model Student {
-   id      Int    @id @default(autoincrement())
-   user    User @relation(fields: [userId], references: [id])
-   userId  String  @unique
-   class Class @relation(fields: [classId], references: [id])
-   classId Int  
-   nis String
-   nisn String
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String @unique
+  class   Class  @relation(fields: [classId], references: [id])
+  classId Int
+  nis     String
+  nisn    String
 }
 
-model Duty {
-   id      Int    @id @default(autoincrement())
-   user    User @relation(fields: [userId], references: [id])
-   userId  String  @unique
+model Attendance {
+  id        Int              @id @default(autoincrement())
+  user      User             @relation(fields: [userId], references: [id])
+  userId    String // foreign key -> User.id
+  date      DateTime
+  checkIn   DateTime?
+  checkOut  DateTime?
+  status    AttendanceStatus @default(PRESENT)
+  note      String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 }
 
+model Class {
+  id             Int          @id @default(autoincrement())
+  name           String
+  classTeacher   Teacher?     @relation(fields: [classTeacherId], references: [id])
+  classTeacherId Int?         @unique
+  student        Student[]
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  academicYearId Int          @default(1)
+}
+
+model AcademicYear {
+  id        Int      @id @default(autoincrement())
+  year      String   @unique
+  startDate DateTime
+  endDate   DateTime @unique
+  isActive  Boolean
+  class     Class[]
+}
+
+model Holiday {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  date        DateTime
+  isNational  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  sender     User     @relation("SentNotifications", fields: [senderId], references: [id])
+  senderId   String
+  receiver   User     @relation("ReceivedNotifications", fields: [receiverId], references: [id])
+  receiverId String
+  title      String
+  message    String
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model School {
+  id             Int     @id @default(autoincrement())
+  name           String
+  jenjang        String
+  npsn           String
+  nss            String
+  phoneNumber    String
+  email          String  @unique
+  address        String
+  kodePos        String
+  headmaster     String
+  nip_headmaster String
+  logoUrl        String?
+}
 
 enum Role {
   admin
@@ -114,4 +157,12 @@ enum Role {
 enum Status {
   active
   inactive
+}
+
+enum AttendanceStatus {
+  PRESENT
+  SICK
+  PERMIT
+  ABSENT
+  LATE
 }
