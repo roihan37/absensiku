@@ -6,6 +6,7 @@ const router = express.Router()
 router.post('/refreshTokens', Controller.refreshToken )
 router.use(authMiddleware)
 router.post('/revokeRefreshTokens', Controller.revokeRefreshTokens)
+router.post('/login', Controller.login)
 // router.get('/refreshTokens', Controller.refreshToken )
 
 
