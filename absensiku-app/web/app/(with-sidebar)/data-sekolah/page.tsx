@@ -70,14 +70,22 @@ export default function Page() {
                         </div>
                         <div className="flex flex-row gap-4 items-center">
                             <div className="w-xs"></div>
+                            <div className="w-full flex items-center space-x-2">
+                                <Checkbox id="terms" />
+                                <Label htmlFor="terms">Saya yakin akan mengubah data tersebut</Label>
+                            </div>
                         </div>
-                        <div className="flex items-center space-x-2">
-                            <Checkbox id="terms" />
-                            <Label htmlFor="terms">Saya yakin akan mengubah data tersebut</Label>
+                        <div className="flex flex-row gap-4">
+                            <div className="w-xs"></div>
+                            <div className="w-full">
+
+                                <Button type="submit" >
+                                    Simpan
+                                </Button>
+                            </div>
                         </div>
-                        <Button type="submit" className="w-full">
-                            Simpan
-                        </Button>
+
+
                     </div>
                 </Card>
                 <Card className=" self-start">
