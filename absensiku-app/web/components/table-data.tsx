@@ -107,7 +107,7 @@ type Item = {
 // Custom filter function for multi-column searching
 const multiColumnFilterFn: FilterFn<Item> = (row, columnId, filterValue) => {
   const searchableRowContent =
-    `${row.original.name}`.toLowerCase()
+    `${row.original.name} `.toLowerCase()
   const searchTerm = (filterValue ?? "").toLowerCase()
   return searchableRowContent.includes(searchTerm)
 }
@@ -148,21 +148,28 @@ const columns: ColumnDef<Item>[] = [
   },
   {
     header: "No.",
-    cell: ({row}) => row.index + 1
-  },
+    sortingFn: "alphanumeric",
+    cell: ({ table, row }) => {
+      const sortedRows = table.getSortedRowModel().flatRows
+      const index = sortedRows.findIndex(r => r.id === row.id)
+      return <div className="text-center">{index + 1}</div>
+    },
+    size: 60,
+  },  
   {
     header: "Name",
     accessorKey: "name",
     cell: ({ row }) => (
       <div className="font-medium">{row.getValue("name")}</div>
     ),
-    size: 180,
+    size: 150,
     filterFn: multiColumnFilterFn,
     enableHiding: false,
   },
   {
     header: "Class",
     accessorKey: "class",
+    size: 90,
     
   },
   {
@@ -506,7 +513,7 @@ export default function TableData() {
                     <TableHead
                       key={header.id}
                       style={{ width: `${header.getSize()}px` }}
-                      className="h-11"
+                      className="h-11 text-center"
                     >
                       {header.isPlaceholder ? null : header.column.getCanSort() ? (
                         <div
