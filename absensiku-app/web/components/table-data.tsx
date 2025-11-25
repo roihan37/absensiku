@@ -95,17 +95,19 @@ import {
 type Item = {
   id: string
   name: string
-  email: string
-  location: string
-  flag: string
+  class: string
+  nis: string
+  nisn: string
+  gender: "Laki-laki" | "Perempuan",
   status: "Active" | "Inactive" | "Pending"
-  balance: number
+  telepon: string
 }
+
 
 // Custom filter function for multi-column searching
 const multiColumnFilterFn: FilterFn<Item> = (row, columnId, filterValue) => {
   const searchableRowContent =
-    `${row.original.name} ${row.original.email}`.toLowerCase()
+    `${row.original.name}`.toLowerCase()
   const searchTerm = (filterValue ?? "").toLowerCase()
   return searchableRowContent.includes(searchTerm)
 }
@@ -145,6 +147,10 @@ const columns: ColumnDef<Item>[] = [
     enableHiding: false,
   },
   {
+    header: "No.",
+    cell: ({row}) => row.index + 1
+  },
+  {
     header: "Name",
     accessorKey: "name",
     cell: ({ row }) => (
@@ -155,21 +161,31 @@ const columns: ColumnDef<Item>[] = [
     enableHiding: false,
   },
   {
-    header: "Email",
-    accessorKey: "email",
-    size: 220,
+    header: "Class",
+    accessorKey: "class",
+    
   },
   {
-    header: "Location",
-    accessorKey: "location",
-    cell: ({ row }) => (
-      <div>
-        <span className="text-lg leading-none">{row.original.flag}</span>{" "}
-        {row.getValue("location")}
-      </div>
-    ),
-    size: 180,
+    header: "NIS",
+    accessorKey: "nis",
+    
   },
+  {
+    header: "NISN",
+    accessorKey: "nisn",
+    
+  },
+  {
+    header: "Gender",
+    accessorKey: "gender",
+    
+  },
+  {
+    header: "Phone",
+    accessorKey: "telepon",
+    
+  },
+
   {
     header: "Status",
     accessorKey: "status",
@@ -185,23 +201,6 @@ const columns: ColumnDef<Item>[] = [
     ),
     size: 100,
     filterFn: statusFilterFn,
-  },
-  {
-    header: "Performance",
-    accessorKey: "performance",
-  },
-  {
-    header: "Balance",
-    accessorKey: "balance",
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("balance"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-      return formatted
-    },
-    size: 120,
   },
   {
     id: "actions",
@@ -233,7 +232,7 @@ export default function TableData() {
   useEffect(() => {
     async function fetchPosts() {
       const res = await fetch(
-        "https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/users-01_fertyx.json"
+        "/data-siswa.json"
       )
       const data = await res.json()
       setData(data)
@@ -317,7 +316,7 @@ export default function TableData() {
       {/* Filters */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          {/* Filter by name or email */}
+          {/* Filter by name */}
           <div className="relative">
             <Input
               id={`${id}-input`}
@@ -332,9 +331,9 @@ export default function TableData() {
               onChange={(e) =>
                 table.getColumn("name")?.setFilterValue(e.target.value)
               }
-              placeholder="Filter by name or email..."
+              placeholder="Filter by name..."
               type="text"
-              aria-label="Filter by name or email"
+              aria-label="Filter by name"
             />
             <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
               <ListFilterIcon size={16} aria-hidden="true" />
@@ -737,37 +736,14 @@ function RowActions({ row }: { row: Row<Item> }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
+        <DropdownMenuItem>
+            <span>View</span>
+            <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <span>Edit</span>
             <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <span>Duplicate</span>
-            <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <span>Archive</span>
-            <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>Move to project</DropdownMenuItem>
-                <DropdownMenuItem>Move to folder</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Advanced options</DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Share</DropdownMenuItem>
-          <DropdownMenuItem>Add to favorites</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="text-destructive focus:text-destructive">

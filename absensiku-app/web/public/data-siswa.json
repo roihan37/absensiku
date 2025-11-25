@@ -1,0 +1,103 @@
+[
+    {
+      "id":"1",
+      "name": "Rama Pratama",
+      "class": "VII A",
+      "nis": "024342501",
+      "nisn": "3035423501",
+      "gender": "Laki-laki",
+      "telepon": "081234567801",
+      "status" : "Active"
+    },
+    {
+      "id":"2",
+      "name": "Siti Aulia",
+      "class": "VIII A",
+      "nis": "024342502",
+      "nisn": "3035423502",
+      "gender": "Perempuan",
+      "telepon": "081234567802",
+      "status" : "Active"
+    },
+    {
+      "id":"3",
+      "name": "Galang Putra",
+      "class": "VII B",
+      "nis": "024342503",
+      "nisn": "3035423503",
+      "gender": "Laki-laki",
+      "telepon": "081234567803",
+      "status" : "Active"
+    },
+    {
+      "id":"4",
+      "name": "Nabila Zahra",
+      "class": "VIII B",
+      "nis": "024342504",
+      "nisn": "3035423504",
+      "gender": "Perempuan",
+      "telepon": "081234567804",
+      "status" : "Active"
+    },
+    {
+      "id":"5",
+      "name": "Fajar Nugraha",
+      "class": "VII A",
+      "nis": "024342505",
+      "nisn": "3035423505",
+      "gender": "Laki-laki",
+      "telepon": "081234567805",
+      "status" : "Active"
+    },
+    {
+      "id":"6",
+      "name": "Melati Sari",
+      "class": "VIII C",
+      "nis": "024342506",
+      "nisn": "3035423506",
+      "gender": "Perempuan",
+      "telepon": "081234567806",
+      "status" : "Active"
+    },
+    {
+      "id":"7",
+      "name": "Ridho Alamsyah",
+      "class": "VII C",
+      "nis": "024342507",
+      "nisn": "3035423507",
+      "gender": "Laki-laki",
+      "telepon": "081234567807",
+      "status" : "Inactive"
+    },
+    {
+      "id":"8",
+      "name": "Anisa Putri",
+      "class": "VIII A",
+      "nis": "024342508",
+      "nisn": "3035423508",
+      "gender": "Perempuan",
+      "telepon": "081234567808",
+      "status" : "Inactive"
+    },
+    {
+      "id":"9",
+      "name": "Bagas Dwi",
+      "class": "VII B",
+      "nis": "024342509",
+      "nisn": "3035423509",
+      "gender": "Laki-laki",
+      "telepon": "081234567809",
+      "status" : "Inactive"
+    },
+    {
+      "id":"10",
+      "name": "Citra Lestari",
+      "class": "VIII B",
+      "nis": "024342510",
+      "nisn": "3035423510",
+      "gender": "Perempuan",
+      "telepon": "081234567810",
+      "status" : "Inactive"
+    }
+  ]
+  
