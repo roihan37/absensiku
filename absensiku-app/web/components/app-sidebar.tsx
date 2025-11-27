@@ -37,48 +37,46 @@ const data = {
   navMain: [
     {
       title: "BIODATA",
-      url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
           title: "Data Siswa",
-          url: "#",
+          url: "/data-siswa",
         },
         {
           title: "Data Guru",
-          url: "#",
+          url: "/data-guru",
         },
         {
           title: "Data Admin",
-          url: "#",
+          url: "/data-admin",
         },
         {
           title: "Data Piket",
-          url: "#",
+          url: "/data-piket",
         },
       ],
     },
     {
       title: "ADMINISTRASI",
-      url: "#",
       icon: Bot,
       items: [
         {
           title: "Data Sekolah",
-          url: "#",
+          url: "/data-sekolah",
         },
         {
           title: "Data Tahun Pelajaran",
-          url: "#",
+          url: "/data-tahun-pelajaran",
         },
         {
           title: "Data Kelas",
-          url: "#",
+          url: "/data-kelas",
         },
         {
           title: "Data Hari Libur",
-          url: "#",
+          url: "/data-hari-libur",
         },
       ],
     }
@@ -98,12 +96,12 @@ const data = {
   absensi: [
     {
       name: "Absensi",
-      url: "#",
+      url: "/absensi",
       icon: Frame,
     },
     {
       name: "Rekap Absensi",
-      url: "#",
+      url: "/rekap-absensi",
       icon: PieChart,
     }
   ],
