@@ -107,7 +107,7 @@ type Item = {
 // Custom filter function for multi-column searching
 const multiColumnFilterFn: FilterFn<Item> = (row, columnId, filterValue) => {
   const searchableRowContent =
-    `${row.original.name} `.toLowerCase()
+    `${row.original.name} ${row.original.nis} ${row.original.nisn} ${row.original.telepon}`.toLowerCase()
   const searchTerm = (filterValue ?? "").toLowerCase()
   return searchableRowContent.includes(searchTerm)
 }
@@ -338,9 +338,9 @@ export default function TableData() {
               onChange={(e) =>
                 table.getColumn("name")?.setFilterValue(e.target.value)
               }
-              placeholder="Filter by name..."
+              placeholder="Filter by name, nisn, or nis ..."
               type="text"
-              aria-label="Filter by name"
+              aria-label="Filter by name, nisn, or nis"
             />
             <div className="text-muted-foreground/80 pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 peer-disabled:opacity-50">
               <ListFilterIcon size={16} aria-hidden="true" />
