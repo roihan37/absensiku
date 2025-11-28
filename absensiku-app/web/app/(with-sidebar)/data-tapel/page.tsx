@@ -1,13 +1,13 @@
-import TableData from "@/components/table-data";
+import TableDataTapel from "@/components/table-data-tapel";
 
 
 export default function Page() {
     return (
         <>
         <div className="mb-6">
-            <h1 className="font-bold text-3xl">Data Siswa</h1>
+            <h1 className="font-bold text-3xl">Data Tahun Pelajaran</h1>
         </div>
-            <TableData />  
+            <TableDataTapel />  
         </>
     )
 }

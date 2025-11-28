@@ -68,7 +68,7 @@ const data = {
         },
         {
           title: "Data Tahun Pelajaran",
-          url: "/data-tahun-pelajaran",
+          url: "/data-tapel",
         },
         {
           title: "Data Kelas",
