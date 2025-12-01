@@ -1,4 +1,4 @@
-import TableData from "@/components/table-data";
+import TableData from "@/components/table-data-kelas";
 
 
 export default function Page() {
